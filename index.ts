@@ -1,8 +1,8 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
 
-const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
-const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
+const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID
+const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET
 const REDIRECT_URI = 'http://localhost:5173/callback'
 
 new Elysia()
@@ -10,7 +10,7 @@ new Elysia()
     .get('/', () => "Hello World!")
     .listen(3000)
     .get('/api/spotify/login', () => {
-        const scopes = ['user-read-private', 'user-read-email'].join(' ')
+        const scopes = ['user-read-private', 'user-read-email', 'user-top-read'].join(' ')
         const authUrl = `https://accounts.spotify.com/authorize?` +
             `client_id=${SPOTIFY_CLIENT_ID}` +
             `&response_type=code` +
@@ -43,6 +43,6 @@ new Elysia()
             refresh_token: tokens.refresh_token
         }
     })
-    }
+    .listen(3000)
 
 console.log("Hello via Bun!");
