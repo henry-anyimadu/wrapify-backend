@@ -7,7 +7,7 @@ const REDIRECT_URI = 'http://localhost:5173/callback'
 
 new Elysia()
     .use(cors({
-        origin: ['http://localhost:5173'],
+        origin: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'], // Specify allowed methods
         credentials: true, // If you need to send credentials
         preflight: true,
