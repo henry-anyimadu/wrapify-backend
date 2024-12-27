@@ -3,7 +3,7 @@ import { cors } from '@elysiajs/cors'
 
 const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET
-const REDIRECT_URI = 'http://https://wrapify.henryany.com/callback'
+const REDIRECT_URI = 'https://wrapify.henryany.com/callback'
 
 export function createServer() {
     return new Elysia()
