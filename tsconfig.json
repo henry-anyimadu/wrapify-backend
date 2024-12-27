@@ -7,7 +7,7 @@
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": false,
+    "allowJs": true,
     "outDir": "dist",
     "rootDir": ".",
     "baseUrl": ".",
