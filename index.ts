@@ -3,7 +3,7 @@ import { cors } from '@elysiajs/cors'
 
 const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET
-const REDIRECT_URI = 'http://localhost:5173/callback'
+const REDIRECT_URI = 'http://https://wrapify-backend.vercel.app/callback'
 
 new Elysia()
     .use(cors({
@@ -77,6 +77,5 @@ new Elysia()
         throw new Error(`Token exchange failed: ${error.message}`)
     }
 })
-    .listen(3000)
 
 console.log("Hello via Bun!");
