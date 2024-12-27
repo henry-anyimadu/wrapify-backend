@@ -7,7 +7,10 @@ const REDIRECT_URI = 'http://https://localhost:5173/callback'
 
 const app = new Elysia()
     .use(cors({
-        origin: true,
+        origin: [
+            'https://wrapify.henryany.com',  // Production
+            'http://localhost:5173',         // Local development
+        ],
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'], // Specify allowed methods
         credentials: true,
         preflight: true,
