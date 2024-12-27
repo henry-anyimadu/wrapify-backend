@@ -5,7 +5,7 @@ const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET
 const REDIRECT_URI = 'http://https://wrapify-backend.vercel.app/callback'
 
-new Elysia()
+const app = new Elysia()
     .use(cors({
         origin: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'], // Specify allowed methods
@@ -78,4 +78,13 @@ new Elysia()
     }
 })
 
+// For development with Bun
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(3000)
+    console.log("Development server running on port 3000")
+}
+
 console.log("Hello via Bun!");
+
+// Export for Vercel
+export default app
