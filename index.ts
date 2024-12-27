@@ -77,6 +77,5 @@ new Elysia()
         throw new Error(`Token exchange failed: ${error.message}`)
     }
 })
-    .listen(3000)
 
 console.log("Hello via Bun!");
