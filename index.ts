@@ -9,7 +9,7 @@ new Elysia()
     .use(cors({
         origin: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'], // Specify allowed methods
-        credentials: true, // If you need to send credentials
+        credentials: true,
         preflight: true,
         allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allowed headers
         maxAge: 5,
