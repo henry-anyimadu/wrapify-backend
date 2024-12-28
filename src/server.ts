@@ -6,6 +6,10 @@ const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET
 const REDIRECT_URI = 'https://wrapify.henryany.com/callback'
 
 export function createServer() {
+    if (!process.env.VITE_SPOTIFY_CLIENT_ID || !process.env.VITE_SPOTIFY_CLIENT_SECRET) {
+        throw new Error('Missing required environment variables');
+    }
+
     return new Elysia()
         .use(cors({
             origin: [
