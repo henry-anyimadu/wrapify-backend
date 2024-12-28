@@ -1,11 +1,22 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
 
-const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID
-const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET
+const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
 const REDIRECT_URI = 'https://wrapify.henryany.com/callback'
 
+function validateEnv() {
+    const required = ['SPOTIFY_CLIENT_ID', 'SPOTIFY_CLIENT_SECRET'];
+    const missing = required.filter(key => !process.env[key]);
+
+    if (missing.length > 0) {
+        throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
+    }
+}
+
 export function createServer() {
+    validateEnv()
+
     return new Elysia()
         .use(cors({
             origin: [
