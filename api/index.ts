@@ -25,22 +25,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Handle the request
         const url = new URL(req.url!, `https://${req.headers.host}`);
+
+        // Log the incoming request details for debugging
+        console.log('Incoming request:', {
+            method: req.method,
+            path: url.pathname,
+            query: url.search,
+            headers: req.headers
+        })
+
+        // Create a new request object with the correct path
         const request = new Request(url, {
             method: req.method,
+            headers: req.headers as HeadersInit,
             body: req.body ? JSON.stringify(req.body) : undefined
         });
 
         const elysia = await app.handle(request)
 
-        // Set response headers and status
-        res.status(elysia.status || 200)
-        for (const [key, value] of elysia.headers.entries()) {
-            res.setHeader(key, value)
+        // Response handling
+        // If it's JSON, send it as JSON
+        if (elysia.headers.get('content-type')?.includes('application/json')) {
+            const data = await elysia.json()
+            return res.status(elysia.status).json(data)
         }
 
-        return res.json(await elysia.json())
+        // Otherwise, send as text
+        const text = await elysia.text()
+        return res.status(elysia.status).send(text)
+
     } catch (error) {
-        console.error('Error handling request:', error)
-        return res.status(500).json({ error: 'Internal Server Error' })
+        console.error('Error handling request:', error);
+        return res.status(500).json({
+            error: 'Internal Server Error'
+        });
     }
 }
