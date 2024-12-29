@@ -47,14 +47,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // If it's JSON, send it as JSON
         if (elysia.headers.get('content-type')?.includes('application/json')) {
             const data = await elysia.json()
-            console.log("Sending JSON data")
             return res.status(elysia.status).json(data)
         }
-
-        // Otherwise, send as text
-        const text = await elysia.text()
-        console.log("Sending JSON data")
-        return res.status(elysia.status).send(text)
 
     } catch (error) {
         console.error('Error handling request:', error);
