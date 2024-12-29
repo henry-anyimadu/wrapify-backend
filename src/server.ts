@@ -44,6 +44,7 @@ export function createServer() {
             return { authUrl }
         })    .get('/api/spotify/callback', async ({ query }) => {
             const { code } = query
+            console.log('Received authorization code:', code)
 
             if (!code) {
                 throw new Error('No authorization code provided')
@@ -54,6 +55,8 @@ export function createServer() {
                 const authHeader = Buffer.from(
                     `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`
                 ).toString('base64')
+                console.log('Client ID present:', !!SPOTIFY_CLIENT_ID)
+                console.log('Client Secret present:', !!SPOTIFY_CLIENT_SECRET)
 
                 // Exchange code for tokens
                 const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
