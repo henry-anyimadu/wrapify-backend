@@ -82,6 +82,14 @@ export function createServer() {
                     throw new Error(`Token exchange failed: ${tokenResponse.status} ${tokenResponse.statusText}`)
                 }
 
+                const tokenData = await tokenResponse.json()
+
+                return {
+                    access_token: tokenData.access_token,
+                    refresh_token: tokenData.refresh_token,
+                    expires_in: tokenData.expires_in
+                }
+
             } catch (error) {
                 console.error('Error during token exchange:', error)
             }
