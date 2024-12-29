@@ -27,11 +27,15 @@ export function createServer() {
             preflight: true,
             allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allowed headers
         }))
+        // Add this to log all requests
         .onRequest((request) => {
-            console.log(`${request}`);
+            console.log('Request received:', request)
         })
         .onError((error) => {
             console.error('Server error:', error);
+        })
+        .get('/', () => {
+            return { status: 'ok', message: 'Server is running' }
         })
         .get('/api/spotify/login', () => {
             const scopes = ['user-read-private', 'user-read-email', 'user-top-read'].join(' ')
