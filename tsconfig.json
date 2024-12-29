@@ -1,20 +1,17 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ES2020",
+    "lib": ["ES2020"],
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "outDir": "dist",
-    "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "noEmit": true
   },
-  "include": ["src/**/*", "api/**/*"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -23,11 +23,9 @@ export function createServer() {
                 'https://wrapify.henryany.com',  // Production
                 'http://localhost:5173',         // Local development
             ],
-            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH'], // Specify allowed methods
             credentials: true,
             preflight: true,
             allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allowed headers
-            maxAge: 5,
         }))
         .get('/api/spotify/login', () => {
             const scopes = ['user-read-private', 'user-read-email', 'user-top-read'].join(' ')
@@ -89,7 +87,6 @@ export function createServer() {
                 }
             } catch (error) {
                 console.error('Error during token exchange:', error)
-                throw new Error(`Token exchange failed: ${error.message}`)
             }
         })
 }
