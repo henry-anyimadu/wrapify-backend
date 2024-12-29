@@ -27,6 +27,12 @@ export function createServer() {
             preflight: true,
             allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allowed headers
         }))
+        .onRequest((request) => {
+            console.log(`${request}`);
+        })
+        .onError((error) => {
+            console.error('Server error:', error);
+        })
         .get('/api/spotify/login', () => {
             const scopes = ['user-read-private', 'user-read-email', 'user-top-read'].join(' ')
             const authUrl = `https://accounts.spotify.com/authorize?` +
@@ -69,22 +75,6 @@ export function createServer() {
                     throw new Error(`Token exchange failed: ${tokenResponse.status} ${tokenResponse.statusText}`)
                 }
 
-                const tokenData = await tokenResponse.json()
-
-                // Log the token response for debugging
-                console.log('Token exchange successful:', {
-                    hasAccessToken: !!tokenData.access_token,
-                    hasRefreshToken: !!tokenData.refresh_token,
-                    tokenType: tokenData.token_type,
-                    expiresIn: tokenData.expires_in
-                })
-
-                return {
-                    access_token: tokenData.access_token,
-                    refresh_token: tokenData.refresh_token,
-                    expires_in: tokenData.expires_in,
-                    token_type: tokenData.token_type
-                }
             } catch (error) {
                 console.error('Error during token exchange:', error)
             }
