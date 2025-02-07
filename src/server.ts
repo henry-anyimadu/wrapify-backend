@@ -1,28 +1,20 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
+import { config } from '@/config/environment.js'
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
-const REDIRECT_URI = 'https://wrapify.henryany.com/callback'
-
-function validateEnv() {
-    const required = ['SPOTIFY_CLIENT_ID', 'SPOTIFY_CLIENT_SECRET'];
-    const missing = required.filter(key => !process.env[key]);
-
-    if (missing.length > 0) {
-        throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
-    }
-}
+const isDevEnv = process.env.NODE_ENV === 'development'
+const REDIRECT_URI = isDevEnv
+    ? 'http://localhost:5173/callback'
+    : 'https://wrapify.henryany.com/callback'
 
 export function createServer() {
-    validateEnv()
-
-    return new Elysia()
+    const app = new Elysia()
         .use(cors({
-            origin: [
-                'https://wrapify.henryany.com',  // Production
-                'http://localhost:5173',         // Local development
-            ],
+            origin: isDevEnv
+                ? ['http://localhost:5173']
+                : ['https://wrapify.henryany.com'],
             credentials: true,
             preflight: true,
             allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allowed headers
@@ -46,7 +38,8 @@ export function createServer() {
                 `&scope=${encodeURIComponent(scopes)}`
 
             return { authUrl }
-        })    .get('/api/spotify/callback', async ({ query }) => {
+        })
+        .get('/api/spotify/callback', async ({ query }) => {
             const { code } = query
             console.log('Received authorization code:', code)
 
@@ -92,6 +85,18 @@ export function createServer() {
 
             } catch (error) {
                 console.error('Error during token exchange:', error)
+                throw error;
             }
         })
+
+    return app
 }
+
+if (process.env.NODE_ENV === 'development') {
+    const app = createServer()
+    app.listen(3000, () => {
+        console.log('Development server is running at http://localhost:3000')
+    })
+}
+
+

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { createServer } from '../src/server.js'
+import { createServer } from '@/server.js'
+import { config } from "@/config/environment.js";
 
 const app = createServer()
 const allowedOrigins = ['https://wrapify.henryany.com', 'http://localhost:5173'];
