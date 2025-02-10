@@ -27,12 +27,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const url = new URL(req.url!, `https://${req.headers.host}`);
 
         // Log the incoming request details for debugging
-        console.log('Incoming request:', {
-            method: req.method,
-            path: url.pathname,
-            query: url.search,
-            headers: req.headers
-        })
+        // console.log('Incoming request:', {
+        //     method: req.method,
+        //     path: url.pathname,
+        //     query: url.search,
+        //     headers: req.headers
+        // })
 
         // Create a new request object with the correct path
         const request = new Request(url, {

@@ -1,6 +1,5 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
-import { config } from '@/config/environment.js'
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
@@ -41,7 +40,7 @@ export function createServer() {
         })
         .get('/api/spotify/callback', async ({ query }) => {
             const { code } = query
-            console.log('Received authorization code:', code)
+            console.log('Received authorization code')
 
             if (!code) {
                 throw new Error('No authorization code provided')
@@ -52,8 +51,8 @@ export function createServer() {
                 const authHeader = Buffer.from(
                     `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`
                 ).toString('base64')
-                console.log('Client ID present:', !!SPOTIFY_CLIENT_ID)
-                console.log('Client Secret present:', !!SPOTIFY_CLIENT_SECRET)
+                console.log('Client ID present')
+                console.log('Client Secret present')
 
                 // Exchange code for tokens
                 const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
