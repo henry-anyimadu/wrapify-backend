@@ -3,10 +3,14 @@ import { cors } from '@elysiajs/cors'
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
-const isDevEnv = process.env.NODE_ENV
-const REDIRECT_URI = isDevEnv
-    ? 'http://localhost:5173/callback'
-    : 'https://wrapify.henryany.com/callback'
+const isDevEnv = process.env.NODE_ENV === 'development'
+let REDIRECT_URI: string;
+
+if (isDevEnv) {
+    REDIRECT_URI = 'http://localhost:5173/callback';
+} else {
+    REDIRECT_URI = 'https://wrapify.henryany.com/callback';
+}
 
 export function createServer() {
     const app = new Elysia()

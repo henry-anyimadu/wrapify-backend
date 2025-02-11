@@ -14,6 +14,6 @@ const configs: { [key: string]: Config } = {
     }
 };
 
-const environment = process.env.NODE_ENV || 'development';
+const environment = process.env.NODE_ENV;
 
 export const config: Config = configs[environment];
