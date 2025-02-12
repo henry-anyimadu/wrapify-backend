@@ -1,23 +1,16 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
+import { config } from '@/config/environment'
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET
 const isDevEnv = process.env.NODE_ENV === 'development'
-let REDIRECT_URI: string;
 
-if (isDevEnv) {
-    REDIRECT_URI = 'http://localhost:5173/callback';
-} else {
-    REDIRECT_URI = 'https://wrapify.henryany.com/callback';
-}
 
 export function createServer() {
     const app = new Elysia()
         .use(cors({
-            origin: isDevEnv
-                ? ['http://localhost:5173']
-                : ['https://wrapify.henryany.com'],
+            origin: config.clientOrigins,
             credentials: true,
             preflight: true,
             allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin'], // Allowed headers
@@ -37,7 +30,7 @@ export function createServer() {
             const authUrl = `https://accounts.spotify.com/authorize?` +
                 `client_id=${SPOTIFY_CLIENT_ID}` +
                 `&response_type=code` +
-                `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+                `&redirect_uri=${encodeURIComponent(config.redirectUri)}` +
                 `&scope=${encodeURIComponent(scopes)}`
 
             return { authUrl }
@@ -68,7 +61,7 @@ export function createServer() {
                     body: new URLSearchParams({
                         grant_type: 'authorization_code',
                         code: code as string,
-                        redirect_uri: REDIRECT_URI
+                        redirect_uri: config.redirectUri
                     }).toString()
                 })
 
