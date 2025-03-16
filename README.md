@@ -1,15 +1,5 @@
 # wrapify-backend
 
-To install dependencies:
+The backend repository for the Wrapify website.
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.1.29. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+This backend is hosted on Vercel, and has been tested for functionality and latency. I removed the unit tests as this is a live repo.
